@@ -42,7 +42,7 @@ class DBOperation
 
     public function updateProductCount($id,$plusminus)
     {
-        $stmt = $this->conn->prepare("UPDATE products SET count = ".($plusminus?"count + 1":"count - 1")." WHERE id = ?");
+        $stmt = $this->conn->prepare("UPDATE products SET count = ".($plusminus?"count + 1":"IF(count != 0, count - 1, count)")." WHERE id = ?");
         $stmt->bind_param("i", $id);
         $result = $stmt->execute();
         $stmt->close();
